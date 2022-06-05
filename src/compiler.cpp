@@ -336,8 +336,8 @@ static bool do_simple(std::string word)
 
 		SIOP("mul-u", 12, 3),
 		SIOP("mul", 13, 3),
-		SIOP("div-u", 14, 3),
-		SIOP("div", 15, 3),
+		SIOP("div-u", 14, 4),
+		SIOP("div", 15, 4),
 
 		SIOP("add", 16, 3),
 		SIOP("sub", 17, 3),
