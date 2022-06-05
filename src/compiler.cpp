@@ -159,7 +159,20 @@ static uint64_t get_uint(std::string str)
 	// num
 	else
 	{
-		return std::stoul(str);
+		try {
+			return std::stoul(str);
+		}
+
+		catch(std::invalid_argument& e) {}
+		catch(std::out_of_range& e) {}
+
+		auto item = labels.find(str);
+
+		if(item == labels.end()) {
+			throw "label or int \"" + str + "\" is invalid";
+		} else {
+			return item->second;
+		}
 	}
 }
 
@@ -267,8 +280,6 @@ static void do_declare()
 		throw "bad type";
 	}
 		
-	std::cout << name << ": " << to_hex(addr) << std::endl;
-
 	labels[name] = addr;
 }
 
@@ -281,24 +292,26 @@ static void do_sload()
 		throw "register index \"" + std::to_string(reg) + "\" is too high (max 255)";
 	}
 
-	std::cout << "reg " << reg << ": " << to_hex(val) << std::endl;
-		
 	if(val <= 0xff) {
 		put_uint8(28);
+		put_uint8(reg);
 		put_uint8(val);
-		cursor_prog += 2;
+		cursor_prog += 3;
 	} else if(val <= 0xffff) {
 		put_uint8(29);
+		put_uint8(reg);
 		put_uint16(val);
-		cursor_prog += 3;
+		cursor_prog += 4;
 	} else if(val <= 0xffffffff) {
 		put_uint8(30);
+		put_uint8(reg);
 		put_uint32(val);
-		cursor_prog += 5;
+		cursor_prog += 6;
 	} else {
 		put_uint8(31);
+		put_uint8(reg);
 		put_uint64(val);
-		cursor_prog += 9;
+		cursor_prog += 10;
 	}
 }
 
@@ -393,7 +406,7 @@ static bool do_simple(std::string word)
 					throw "register index \"" + std::to_string(val) + "\" is too high (max 255)";
 				}
 
-				put_uint8(op.cmd);
+				put_uint8(val);
 			}
 
 			cursor_prog += 1 + op.ops;
