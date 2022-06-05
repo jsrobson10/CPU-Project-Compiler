@@ -420,10 +420,11 @@ static bool do_simple(std::string word)
 
 int main(int argc, const char** argv)
 {
-	if(argc < 3) return 1;
+	if(argc < 2) return 1;
 	
-	std::ifstream in(argv[1]);
-	std::ofstream file(argv[2]);
+	std::string fn = argv[1];
+	std::ifstream in(fn);
+	std::ofstream file(fn + ".bin");
 	size_t lineno = 0;
 
 	out = &file;
