@@ -443,6 +443,10 @@ int main(int argc, const char** argv)
 			if(word == "") {
 				continue;
 			}
+
+			if(word[0] == '-') {
+				continue;
+			}
 	
 			if(word == "declare") {
 				do_declare();
