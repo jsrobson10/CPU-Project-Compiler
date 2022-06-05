@@ -270,7 +270,7 @@ static void do_declare()
 		addr = cursor_prog;
 	}
 
-	else if(type == "addr")
+	else if(type == "def")
 	{
 		addr = get_uint(get_next_word(line_c));
 	}
